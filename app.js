@@ -5,18 +5,17 @@ let browser; // تعریف متغیر مرورگر بیرون از تابع
 
 async function initializeBrowser() {
     // مرورگر را باز کرده و یک تب جدید ایجاد می‌کنیم
-    browser = await puppeteer.launch({ headless: false });
+    browser = await puppeteer.launch({ headless: true });
     page = await browser.newPage();
 }
-
+let result = 0;
 async function checkOr() {
     if (!page) {
         // اگر هنوز صفحه‌ای باز نشده بود، مرورگر و تب را ایجاد می‌کنیم
         await initializeBrowser();
     }
-
-    let result = 1;
     try {
+        result += 1;
         // بارگذاری صفحه و انتظار تا زمانی که شبکه بی‌کار شود
         await page.goto('https://pouyashop.com/products/category-products/food', { waitUntil: 'networkidle2', timeout: 0 });
         
@@ -45,7 +44,7 @@ async function checkOr() {
             // await submitButton.click();
 
         } else {
-            result += 1;
+            console.log(foodButton);
             console.log(`Empty...try number of ${result}`);
         }
     } catch (error) {
